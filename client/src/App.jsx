@@ -53,7 +53,7 @@ export default function App() {
               <TrendingUp size={20} />
             </div>
             <span className="font-extrabold text-xl tracking-tight bg-gradient-to-r from-white to-slate-400 bg-clip-text text-transparent">
-              InsideIIM Agent
+              AI Investment Research Agent
             </span>
           </div>
 

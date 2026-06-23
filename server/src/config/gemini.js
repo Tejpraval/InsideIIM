@@ -1,4 +1,5 @@
 import { ChatGoogleGenerativeAI } from "@langchain/google-genai";
+import { ChatOpenAI } from "@langchain/openai";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -14,17 +15,52 @@ if (!apiKey) {
   process.env.GOOGLE_API_KEY = apiKey;
 }
 
-// Allow model override from .env, defaulting to gemini-2.5-pro
-const modelName = process.env.GEMINI_MODEL || "gemini-2.5-pro";
+const isOpenRouter = apiKey.startsWith("sk-or-");
 
-/**
- * ChatGoogleGenerativeAI instance configured for the research agent.
- * We use the model configured in .env (or 'gemini-2.5-flash' by default) for fast response times,
- * large context window, and excellent JSON/Structured Output support.
- */
-export const geminiModel = new ChatGoogleGenerativeAI({
-  model: modelName,
-  temperature: 0.2, // Low temperature for deterministic financial/investment analysis
-  apiKey: apiKey,
-  maxRetries: 1, // Fail fast on rate limits (429) to trigger graceful fallbacks rather than hanging
-});
+let geminiModel;
+
+if (isOpenRouter) {
+  // Map standard model names to OpenRouter equivalents if necessary
+  let modelName = process.env.GEMINI_MODEL || "google/gemini-2.5-flash";
+  if (!modelName.includes("/")) {
+    if (modelName.includes("2.0-flash-lite")) {
+      modelName = "google/gemini-2.0-flash-lite:free";
+    } else if (modelName.includes("2.5-flash")) {
+      modelName = "google/gemini-2.5-flash";
+    } else if (modelName.includes("2.5-pro")) {
+      modelName = "google/gemini-2.5-pro";
+    } else if (modelName.includes("2.0-flash")) {
+      modelName = "google/gemini-2.0-flash";
+    } else {
+      modelName = `google/${modelName}`;
+    }
+  }
+
+  console.log(`[LLM] Initializing OpenRouter connection using model: "${modelName}"`);
+  geminiModel = new ChatOpenAI({
+    model: modelName,
+    apiKey: apiKey,
+    configuration: {
+      baseURL: "https://openrouter.ai/api/v1",
+      defaultHeaders: {
+        "HTTP-Referer": "http://localhost:3000",
+        "X-Title": "AI Investment Research Agent",
+      }
+    },
+    temperature: 0.2,
+    maxRetries: 1,
+    maxTokens: 2000, // Restrict output size so it executes successfully on unfunded free OpenRouter accounts
+  });
+} else {
+  // Default to native Google Gemini SDK
+  const modelName = process.env.GEMINI_MODEL || "gemini-2.5-flash";
+  console.log(`[LLM] Initializing Native Google Gemini connection using model: "${modelName}"`);
+  geminiModel = new ChatGoogleGenerativeAI({
+    model: modelName,
+    temperature: 0.2,
+    apiKey: apiKey,
+    maxRetries: 1,
+  });
+}
+
+export { geminiModel };
