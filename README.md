@@ -53,11 +53,13 @@ PORT=5000
 # Tavily Search API key
 TAVILY_API_KEY=your-tavily-api-key
 
-# LLM Provider Key (Supports native Gemini starting with AIzaSy or OpenRouter starting with sk-or-)
+# LLM Provider Key (Supports OpenRouter starting with sk-or- OR native Gemini starting with AIzaSy)
+OPENROUTER_API_KEY=your-api-key
+# OR
 Google_GeminiAPI_KEY=your-api-key
 
 # Optional: Specify the model name (Defaults to gemini-2.5-flash for Google API, google/gemini-2.5-flash for OpenRouter)
-GEMINI_MODEL=gemini-2.5-flash
+GEMINI_MODEL=google/gemini-2.5-flash
 ```
 
 ---

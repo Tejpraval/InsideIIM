@@ -33,7 +33,7 @@ app.get("/health", (req, res) => {
       },
       apiKeys: {
         tavilyConfigured: !!process.env.TAVILY_API_KEY,
-        geminiConfigured: !!process.env.Google_GeminiAPI_KEY || !!process.env.GOOGLE_API_KEY,
+        geminiConfigured: !!process.env.OPENROUTER_API_KEY || !!process.env.Google_GeminiAPI_KEY || !!process.env.GOOGLE_API_KEY,
       }
     }
   });

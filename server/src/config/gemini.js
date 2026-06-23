@@ -4,12 +4,12 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-// Ensure the Gemini API key is mapped to the standard env variable and trimmed of whitespace
-const rawKey = process.env.Google_GeminiAPI_KEY || process.env.GEMINI_API_KEY || "";
+// Ensure the API key is mapped to the standard env variable and trimmed of whitespace
+const rawKey = process.env.OPENROUTER_API_KEY || process.env.Google_GeminiAPI_KEY || process.env.GEMINI_API_KEY || "";
 const apiKey = rawKey.trim();
 
 if (!apiKey) {
-  console.warn("WARNING: Google_GeminiAPI_KEY is not defined in environment variables.");
+  console.warn("WARNING: Google_GeminiAPI_KEY or OPENROUTER_API_KEY is not defined in environment variables.");
 } else {
   // Map key to GOOGLE_API_KEY as expected by the Google GenAI SDK
   process.env.GOOGLE_API_KEY = apiKey;
