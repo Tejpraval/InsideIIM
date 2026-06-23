@@ -34,51 +34,49 @@ The AI Investment Research Agent accepts a company name and generates a comprehe
 * **Node.js** (v18.0.0 or higher)
 * **npm** (v9.0.0 or higher)
 
-### Environment Variables
-Create a `.env` file in the `/server` directory:
-```env
-PORT=5000
-TAVILY_API_KEY=your-tavily-api-key
+### Setup Steps
 
-# Use EITHER a native Gemini key OR an OpenRouter key:
-Google_GeminiAPI_KEY=AIzaSy... (native Google key)
-# OR
-OPENROUTER_API_KEY=sk-or-... (OpenRouter key)
+1. **Copy the Environment Template**
+   Copy the `.env_example` file from the root directory into the `server/` directory and rename it to `.env`:
+   ```bash
+   # Unix-based (macOS/Linux)
+   cp .env_example server/.env
 
-# Optional: Specify the model name (defaults to gemini-2.5-flash or google/gemini-2.5-flash)
-GEMINI_MODEL=gemini-2.5-flash
-```
+   # Windows PowerShell
+   Copy-Item -Path .env_example -Destination server\.env
+   ```
 
-### Backend Setup
-1. Navigate to the server folder:
+2. **Add Your Own API Keys**
+   Open the newly created `server/.env` file and replace the placeholder values with your valid credentials:
+   * **`TAVILY_API_KEY`**: Your Tavily Search API key.
+   * **`OPENROUTER_API_KEY`** (or `Google_GeminiAPI_KEY`): Your OpenRouter or native Google Gemini API key.
+
+3. **Install Dependencies**
+   Run the installation command in both the `server` and `client` directories:
+   ```bash
+   # Install Backend dependencies
+   cd server && npm install
+
+   # Install Frontend dependencies
+   cd ../client && npm install
+   ```
+
+4. **Start the Application**
+   Run the development commands in separate terminals:
+   
+   **For the Backend Server:**
    ```bash
    cd server
-   ```
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-3. Run the backend server in development mode:
-   ```bash
    npm run dev
+   # Runs on http://localhost:5000
    ```
-   *The server will run on `http://localhost:5000`.*
 
-### Frontend Setup
-1. Navigate to the client folder:
+   **For the Frontend Client:**
    ```bash
-   cd ../client
-   ```
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-3. Run the React client in development mode:
-   ```bash
+   cd client
    npm run dev
+   # Runs on http://localhost:3000
    ```
-   *The frontend will run on `http://localhost:3000`.*
-
 ### Running Locally
 To run a query locally, make sure both terminals are active. Navigate to `http://localhost:3000` in your web browser, enter a company name (e.g., "Apple" or "Nvidia"), and click **Analyze**.
 
