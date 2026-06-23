@@ -237,7 +237,11 @@ InsideIIM/
 │   ├── architecture.md
 │   ├── implementation.md
 │   └── testing-and-deployment.md
-└── README.md                   # Project Documentation
+├── screenshots/                # Application dashboard screenshots
+│   └── .gitkeep
+├── README.md                   # Project Documentation
+├── testing_report.md           # API validation & test reports
+└── walkthrough.md              # Technical project walkthrough
 ```
 
 ---
