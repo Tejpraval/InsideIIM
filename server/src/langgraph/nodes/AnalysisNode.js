@@ -31,6 +31,8 @@ export async function AnalysisNode(state) {
 
   console.log(`[AnalysisNode] Beginning qualitative LLM analysis for: "${company}"`);
 
+  const startTime = Date.now();
+
   // Format the Tavily search data into structured context blocks for the LLM
   const formatList = (items) => {
     if (!items || items.length === 0) return "No information found.";
@@ -82,6 +84,7 @@ ${formatList(research.risks)}
 
     console.log(`[AnalysisNode] Completed qualitative analysis. Confidence Score: ${response.confidenceScore}/100`);
 
+    const duration = Date.now() - startTime;
     return {
       analysis: {
         strengths: response.strengths,
@@ -91,10 +94,14 @@ ${formatList(research.risks)}
         marketPosition: response.marketPosition,
         growthPotential: response.growthPotential,
         confidenceScore: response.confidenceScore,
+      },
+      metadata: {
+        analysisDurationMs: duration
       }
     };
   } catch (error) {
     console.error("[AnalysisNode] LLM invocation failed:", error);
+    const duration = Date.now() - startTime;
     // Graceful fallback to prevent total execution failure
     return {
       analysis: {
@@ -106,6 +113,9 @@ ${formatList(research.risks)}
         growthPotential: "Unknown",
         confidenceScore: 0,
         error: error.message
+      },
+      metadata: {
+        analysisDurationMs: duration
       }
     };
   }

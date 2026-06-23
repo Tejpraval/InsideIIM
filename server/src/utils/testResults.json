@@ -1,0 +1,290 @@
+{
+  "healthCheck": {
+    "status": 200,
+    "data": {
+      "status": "healthy",
+      "timestamp": "2026-06-23T05:01:13.882Z",
+      "uptime": "94s",
+      "environment": "development",
+      "diagnostics": {
+        "nodeVersion": "v22.14.0",
+        "memory": {
+          "rss": "61 MB",
+          "heapUsed": "17 MB"
+        },
+        "apiKeys": {
+          "tavilyConfigured": true,
+          "geminiConfigured": true
+        }
+      }
+    }
+  },
+  "validationTests": [
+    {
+      "name": "Empty Object {}",
+      "httpStatus": 400,
+      "success": false,
+      "error": "Validation Error: 'company' field is required and must be a non-empty string."
+    },
+    {
+      "name": "Empty String ''",
+      "httpStatus": 400,
+      "success": false,
+      "error": "Validation Error: 'company' field is required and must be a non-empty string."
+    },
+    {
+      "name": "Whitespace String '   '",
+      "httpStatus": 400,
+      "success": false,
+      "error": "Validation Error: 'company' field is required and must be a non-empty string."
+    },
+    {
+      "name": "Non-existent Company 'asdfghjkl'",
+      "httpStatus": 200,
+      "success": true,
+      "recommendation": "WATCH",
+      "score": 52,
+      "response": {
+        "success": true,
+        "latencyMs": 24095,
+        "data": {
+          "company": "asdfghjkl",
+          "summary": "The final investment recommendation for asdfghjkl is WATCH, with an assigned grade of C. The company achieved a total score of 52/100 on the investment scorecard, indicating a hold or watch candidate status. No specific constraints or key factors influencing this decision were detailed in the provided research.",
+          "overview": "Information regarding asdfghjkl's core business model was not provided in the research summary. Details concerning the company's specific products or services are also absent.",
+          "strengths": [],
+          "weaknesses": [],
+          "opportunities": [],
+          "threats": [],
+          "marketPosition": "Cannot be determined due to a complete lack of company-specific data in the provided research.",
+          "growthPotential": "Cannot be determined due to a complete lack of company-specific data in the provided research.",
+          "confidenceScore": 0,
+          "competitors": [
+            {
+              "title": "Competitive Analysis & Competitor Analysis | Methods & Examples",
+              "url": "https://www.appinio.com/en/blog/market-research/competitive-analysis",
+              "snippet": "# Competitive Analysis. In the world of business, competition is just as fierce as in a cycling race. That's where competitive analysis comes in. Its primary purpose is to help companies stay ahead of the competition by providing insights into their rivals' strengths and weaknesses. * The insights competitive analysis provides, and. What Is Comparative Analysis and How to Conduct It ExamplesA competitive analysis is a vital part of market analysis from the customer's perspective. It involves systematically exploring the current and potential competition to reveal both the strengths and weaknesses of your own company and your competitors. * Reveals strengths and weaknesses of your own company and competitors. By identifying your main competitors, understanding their strategies, and using this knowledge to overtake them, you can position your company more strategically in the market. In conducting a competitive analysis, it's important to identify the strengths and weaknesses of your competitors, as well as your own company's position."
+            },
+            {
+              "title": "What Is Competitive Analysis and How to Do It Effectively | Crunchbase Blog",
+              "url": "https://about.crunchbase.com/blog/competitor-analysis",
+              "snippet": "# What Is Competitive Analysis and How to Do It Effectively. Competitive analysis is more than a quick online search; instead, it’s a systematic process that allows you to gain valuable insights into your competitive environment. By examining the strengths, weaknesses, strategies and market positions of rival companies, you can make informed decisions that help you come out on top. Let’s dive into what competitor analysis is and how to do it, as well as the tools and templates you need to thrive in the modern market. Competitor analysis, often referred to as competitive analysis, is the systematic process of gathering and evaluating information about your competitors to gain a deep understanding of the competitive landscape in your industry. This practice helps you keep a pulse on competing products in the market and make well-informed decisions for your business. Once you have identified these direct competitors, you can create a list or spreadsheet to keep track of their names, key characteristics and any available data that will be useful in your analysis."
+            },
+            {
+              "title": "Which Competitor Has the Largest Market Share? - Luth Research",
+              "url": "https://luthresearch.com/glossary/which-competitor-has-the-largest-market-share",
+              "snippet": "# Which Competitor Has the Largest Market Share? Identifying which competitor has the largest market share not only helps in strategic planning but also in recognizing market trends and potential opportunities. In this article, we will explore the importance of market share, the factors affecting it, and how to gather the necessary data to make informed decisions. Market share refers to the percentage of an industry’s sales that a particular company controls. Several factors can affect which competitor has the largest market share, including:. ## How to Determine Which Competitor Has the Largest Market Share. Identifying the company with the largest market share in your industry requires a systematic approach. To thoroughly understand which competitor holds the largest market share, it is beneficial to conduct an internal analysis of competitors. Data plays a pivotal role when it comes to determining which competitor has the largest market share. In today’s competitive landscape, knowing which competitor has the largest market share is essential for informed decision-making and strategic planning."
+            },
+            {
+              "title": "How to create a competitive analysis: A beginner's guide",
+              "url": "https://www.notion.com/blog/competitive-analysis",
+              "snippet": "Making the hands-down best product in the market is an admirable goal, but it's often unrealistic. Let’s explore the benefits of competitive market analysis and the basics of constructing an effective competitor analysis framework. ## What’s competitive analysis? Competitive analysis is a business tactic used to identify competing companies and evaluate their marketing techniques to generate ideas and strengthen your brand's position. Teams often use spreadsheet templates to organize key data points on their competitors — including consumer personas, revenue, and location — and contrast this information with internal reports and industry-wide metrics. Companies typically leverage competitive analysis to gain a high-level view of multiple competitors, but they may also concentrate on a few significant rivals in more detailed reports. * **Replacement** — also called \"substitute\" or \"phantom\" competitors, a replacement competitor is any business in a different product category that still offers a solution to a customer's primary problem."
+            }
+          ],
+          "recentNews": [
+            {
+              "title": "ABC News - Breaking News, Latest News and Videos",
+              "url": "https://abcnews.com",
+              "snippet": "'Major Weapons Inspections' Immigration DHS proposes 75% increase in fees for US citizenship paperwork Judge blocks announces resignation Show"
+            },
+            {
+              "title": "World | Latest News & Updates | BBC News",
+              "url": "https://www.bbc.com/news/world",
+              "snippet": "US eases oil sanctions as Iran denies Vance claim on nuclear inspectors · At least 13 killed and dozens injured after Qatar gas explosion · WhatsApp to be led by"
+            },
+            {
+              "title": "Latest U.S. News | Top headlines from the USA - Reuters",
+              "url": "https://www.reuters.com/world/us",
+              "snippet": "3 hours ago. Judge blocks Trump's use of revamped immigration database for voter checks · 4 hours ago. US judge shuts down DOJ immigration probe into Walz,"
+            },
+            {
+              "title": "The Washington Post - Breaking news and latest headlines, U.S. ...",
+              "url": "https://www.washingtonpost.com",
+              "snippet": "Senate passes housing bill to boost affordability, restrain investors · A new ABC campaign urges viewers to push back against FCC pressure · Hot weather can make"
+            },
+            {
+              "title": "Associated Press News: Breaking News, Latest Headlines and ...",
+              "url": "https://apnews.com",
+              "snippet": "Latest news · Man charged in killing of actor James Handy found mentally incompetent for prosecution · Firefighters deliver conflicting testimony over fireworks"
+            }
+          ],
+          "risks": [
+            {
+              "title": "Challenges in Risk Management (FRM) - Kaplan",
+              "url": "https://kaplanmena.com/challenges-in-risk-management-frm",
+              "snippet": "The risks to companies can stem from a range of various sources, such as technology, natural disasters, internal systems, legal liabilities, company branding,"
+            },
+            {
+              "title": "Liability Risk Management | Law | Research Starters | EBSCO Research",
+              "url": "https://www.ebsco.com/research-starters/law/liability-risk-management",
+              "snippet": "Liability Risk Management is a critical process aimed at minimizing the legal obligations that individuals and businesses may face due to injuries, damages, or losses. Key to effective liability risk management is the prevention of incidents that can lead to lawsuits, which involves implementing safety protocols, employee training, and clear contractual agreements. Organizations must comply with legal standards and recognize that negligence, a failure to meet a duty of care, can result in serious legal consequences. Liability can manifest in various forms, including torts, contracts, and product defects, with businesses being held accountable for the actions of their employees or the quality of their products. Additionally, the choice of business structure can influence liability exposure; for instance, limited liability entities like corporations and LLCs protect personal assets by separating business liabilities from personal ones. The use of insurance, especially third-party liability insurance, is another essential tool for businesses to mitigate risks associated with potential claims."
+            },
+            {
+              "title": "Vulnerabilities, Threats, and Risks Explained | Office of Information Security | Washington University in St. Louis",
+              "url": "https://informationsecurity.wustl.edu/vulnerabilities-threats-and-risks-explained",
+              "snippet": "Security experts define these three concepts in a variety of ways, and the terms threat and risk are sometimes used interchangeably. Each term can be thought of in reference to an asset or “something that needs to be protected.”. * A vulnerability is **a flaw or weakness** in an asset’s design, implementation, or operation and management that could be exploited by a threat. * A threat is a **potential** for a threat agent **to exploit a vulnerability**. * A risk is the **potential for loss** when the threat happens. Identifying vulnerabilities is akin to answering the question, “How could harm occur?” Sometimes, a vulnerability can exist simply from an asset’s implementation or deployment. Identifying threats is akin to answering the question, “Who or what could cause harm?” In a broad sense, a threat is anything that could exploit a vulnerability and hinder the confidentiality, integrity, and availability of anything valuable. Risk = (Probability that a threat occurs) \\* (Cost to the asset owner)."
+            },
+            {
+              "title": "Assessing the Risks That Face Your Business",
+              "url": "https://www.fbfs.com/learning-center/risks-that-face-your-business",
+              "snippet": "Business risk includes anything internal or external that could jeopardize the success of your business. That’s why it’s smart to assess potential risks early, so you can build a plan to reduce their impact before they become a problem. Every business and industry faces different types of risks, but there are some common ones most organizations deal with: property, liability, financial, operational, cyber and reputation. Property risk management is essential to keeping a business running, because without your inventory, working equipment, or even the building itself, the business might not survive. That’s when business liability insurance can help protect you when the unpredictable happens. One of the easiest ways to reduce your financial risk is by managing your finances – especially when you are in the early stages of starting your business. Building a plan to manage your business’s risk early can save you a lot of stress and money in the future."
+            }
+          ],
+          "score": {
+            "growth": 10,
+            "risk": 20,
+            "market": 12,
+            "innovation": 10,
+            "total": 52,
+            "grade": "C",
+            "breakdown": {
+              "growthReason": "Standard growth potential classification augmented by 0 identified growth opportunities (+0.0 pts).",
+              "riskReason": "Calculated from: 0 weaknesses (-0.0 pts), 0 threats (-0.0 pts), and research confidence deduction of -5 pts (High score means low risk).",
+              "marketReason": "Standard market position classification supported by 0 core strengths (+0.0 pts).",
+              "innovationReason": "Calculated from 0 innovation keyword markers found in SWOT strengths and opportunities (+0.0 pts)."
+            }
+          },
+          "baseRecommendation": "WATCH",
+          "finalRecommendation": "WATCH",
+          "recommendation": "WATCH",
+          "overrideTriggered": false,
+          "overrideReason": "",
+          "reasoning": [
+            "Score-based evaluation suggests WATCH (Watch / Hold) with a score of 52/100.",
+            "Risk profile is within acceptable boundaries (Risk Score 20/25 is above the safe threshold of 8/25)."
+          ],
+          "references": [
+            {
+              "title": "Business Model: Definition and 13 Examples - Investopedia",
+              "url": "https://www.investopedia.com/terms/b/businessmodel.asp"
+            },
+            {
+              "title": "(PDF) A Brief History of the Business Model Concept - ResearchGate",
+              "url": "https://www.researchgate.net/publication/273634545_A_Brief_History_of_the_Business_Model_Concept"
+            },
+            {
+              "title": "Owning the Consumer- Getting to the core of the Apple Business ...",
+              "url": "https://www.academia.edu/4006866/Owning_the_Consumer_Getting_to_the_core_of_the_Apple_Business_Model"
+            },
+            {
+              "title": "Business Model Pattern List |",
+              "url": "https://businessmodelnavigator.com/explore"
+            },
+            {
+              "title": "Competitive Analysis & Competitor Analysis | Methods & Examples",
+              "url": "https://www.appinio.com/en/blog/market-research/competitive-analysis"
+            },
+            {
+              "title": "What Is Competitive Analysis and How to Do It Effectively | Crunchbase Blog",
+              "url": "https://about.crunchbase.com/blog/competitor-analysis"
+            },
+            {
+              "title": "Which Competitor Has the Largest Market Share? - Luth Research",
+              "url": "https://luthresearch.com/glossary/which-competitor-has-the-largest-market-share"
+            },
+            {
+              "title": "How to create a competitive analysis: A beginner's guide",
+              "url": "https://www.notion.com/blog/competitive-analysis"
+            },
+            {
+              "title": "ABC News - Breaking News, Latest News and Videos",
+              "url": "https://abcnews.com"
+            },
+            {
+              "title": "World | Latest News & Updates | BBC News",
+              "url": "https://www.bbc.com/news/world"
+            },
+            {
+              "title": "Latest U.S. News | Top headlines from the USA - Reuters",
+              "url": "https://www.reuters.com/world/us"
+            },
+            {
+              "title": "The Washington Post - Breaking news and latest headlines, U.S. ...",
+              "url": "https://www.washingtonpost.com"
+            },
+            {
+              "title": "Associated Press News: Breaking News, Latest Headlines and ...",
+              "url": "https://apnews.com"
+            },
+            {
+              "title": "4 Market Expansion Strategies for Small Business Growth",
+              "url": "https://chalifourconsulting.com/market-expansion-strategies-small-business"
+            },
+            {
+              "title": "Chapter 5: Retail Market Strategy Flashcards - Quizlet",
+              "url": "https://quizlet.com/664115830/chapter-5-retail-market-strategy-flash-cards"
+            },
+            {
+              "title": "Market Expansion Strategy: Complete 2026 Guide | GrowthFactor",
+              "url": "https://www.growthfactor.ai/resources/blog/market-expansion-strategy-complete-guide"
+            },
+            {
+              "title": "The Ultimate Guide to Market Expansion Strategy | LaunchNotes",
+              "url": "https://www.launchnotes.com/blog/the-ultimate-guide-to-market-expansion-strategy"
+            },
+            {
+              "title": "Challenges in Risk Management (FRM) - Kaplan",
+              "url": "https://kaplanmena.com/challenges-in-risk-management-frm"
+            },
+            {
+              "title": "Liability Risk Management | Law | Research Starters | EBSCO Research",
+              "url": "https://www.ebsco.com/research-starters/law/liability-risk-management"
+            },
+            {
+              "title": "Vulnerabilities, Threats, and Risks Explained | Office of Information Security | Washington University in St. Louis",
+              "url": "https://informationsecurity.wustl.edu/vulnerabilities-threats-and-risks-explained"
+            },
+            {
+              "title": "Assessing the Risks That Face Your Business",
+              "url": "https://www.fbfs.com/learning-center/risks-that-face-your-business"
+            }
+          ],
+          "sourceCount": 21,
+          "timestamp": "2026-06-23T05:01:38.019Z"
+        }
+      }
+    }
+  ],
+  "analysisTests": [
+    {
+      "company": "Tesla",
+      "httpStatus": 200,
+      "processingTimeMs": 28618,
+      "apiLatencyMs": 28614,
+      "totalScore": 85,
+      "finalRecommendation": "INVEST",
+      "sourceCount": 21,
+      "grade": "A"
+    },
+    {
+      "company": "Apple",
+      "httpStatus": 200,
+      "processingTimeMs": 117596,
+      "apiLatencyMs": 117590,
+      "totalScore": 54,
+      "finalRecommendation": "WATCH",
+      "sourceCount": 21,
+      "grade": "C"
+    },
+    {
+      "company": "Nvidia",
+      "httpStatus": 200,
+      "processingTimeMs": 204134,
+      "apiLatencyMs": 204128,
+      "totalScore": 54,
+      "finalRecommendation": "WATCH",
+      "sourceCount": 21,
+      "grade": "C"
+    },
+    {
+      "company": "Google",
+      "httpStatus": 200,
+      "processingTimeMs": 207581,
+      "apiLatencyMs": 207575,
+      "totalScore": 54,
+      "finalRecommendation": "WATCH",
+      "sourceCount": 21,
+      "grade": "C"
+    }
+  ],
+  "nodePerformanceGoogle": null
+}
