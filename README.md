@@ -144,14 +144,14 @@ graph TD
   ![Tesla Run](/screenshots/tesla.png)
 
 ### Apple
-* **Score**: 79/100
+* **Score**: 85/100
 * **Grade**: B
 * **Recommendation**: `WATCH`
 * **Screenshot**:
   ![Apple Run](/screenshots/apple.png)
 
 ### Nvidia
-* **Score**: 92/100
+* **Score**: 85/100
 * **Grade**: A
 * **Recommendation**: `INVEST` (Safety check passed; high growth potential and clean risk profile).
 * **Screenshot**:
