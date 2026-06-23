@@ -1,21 +1,96 @@
 # AI Investment Research Agent
 
-A full-stack, production-grade AI Agent designed to perform institutional-grade quantitative and qualitative investment research on public companies. Powered by **LangGraph.js**, **Google Gemini** (via native Google AI SDK or **OpenRouter**), and **Tavily Search API**, this application structures complex web research into a clean, modern financial dashboard.
+A production-grade, full-stack AI Investment Research Agent that automates institutional-grade quantitative and qualitative research on public companies. The application performs web research, conducts SWOT analyses, calculates financial scorecard metrics, enforces investment safety guardrails, and renders findings in a sleek dashboard.
 
 ---
 
-## 📈 System Architecture
+## 1. Overview
 
-The core of the application is built as a stateful multi-node graph workflow using **LangGraph.js**, which ensures deterministic scoring, logical isolation of reasoning blocks, and robust safety guardrails.
+### What the Application Does
+The AI Investment Research Agent accepts a company name and generates a comprehensive investment analysis. In under 10 seconds, it fetches recent news, analyzes competitor landscapes, drafts a qualitative SWOT analysis, scores the business across four domains, runs a safety risk guardrail, and outputs a final recommendation (`INVEST`, `WATCH`, or `PASS`) backed by clickable source references.
 
-### Workflow Graph
+### Problem Being Solved
+* **Data Overload**: Investors must manual search multiple news channels, press feeds, and financial summaries. The agent gathers and deduplicates this in parallel.
+* **Ungrounded Hallucinations**: Standard LLM search prompts often generate inaccurate facts. This agent grounds all SWOT bullet points and summaries strictly in Tavily-searched web references.
+* **Math Drift**: LLMs struggle with consistent mathematical evaluations. The agent enforces a deterministic, rules-based scoring engine for financial scorecards.
+* **Safety Violations**: LLMs tend to be overly optimistic. The agent uses local risk guardrails to override the LLM's recommendation if a company's qualitative risk profile is high.
+
+### Technologies Used
+* **Backend**: Node.js, Express.js, ES Modules
+* **AI Orchestration**: LangGraph.js (Stateful multi-node workflows)
+* **LLM Engine**: Google Gemini (via native Google AI SDK or OpenRouter integration)
+* **Search Integration**: Tavily Search API (parallel query orchestration)
+* **Frontend**: React, Vite, Tailwind CSS, Axios, Lucide Icons
+
+---
+
+## 2. How to Run It
+
+### Prerequisites
+* **Node.js** (v18.0.0 or higher)
+* **npm** (v9.0.0 or higher)
+
+### Environment Variables
+Create a `.env` file in the `/server` directory:
+```env
+PORT=5000
+TAVILY_API_KEY=your-tavily-api-key
+
+# Use EITHER a native Gemini key OR an OpenRouter key:
+Google_GeminiAPI_KEY=AIzaSy... (native Google key)
+# OR
+OPENROUTER_API_KEY=sk-or-... (OpenRouter key)
+
+# Optional: Specify the model name (defaults to gemini-2.5-flash or google/gemini-2.5-flash)
+GEMINI_MODEL=gemini-2.5-flash
+```
+
+### Backend Setup
+1. Navigate to the server folder:
+   ```bash
+   cd server
+   ```
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Run the backend server in development mode:
+   ```bash
+   npm run dev
+   ```
+   *The server will run on `http://localhost:5000`.*
+
+### Frontend Setup
+1. Navigate to the client folder:
+   ```bash
+   cd ../client
+   ```
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Run the React client in development mode:
+   ```bash
+   npm run dev
+   ```
+   *The frontend will run on `http://localhost:3000`.*
+
+### Running Locally
+To run a query locally, make sure both terminals are active. Navigate to `http://localhost:3000` in your web browser, enter a company name (e.g., "Apple" or "Nvidia"), and click **Analyze**.
+
+---
+
+## 3. How It Works
+
+### Architecture Diagram (Mermaid)
+
 ```mermaid
 %%{init: {'theme': 'dark', 'flowchart': {'curve': 'linear'}}}%%
 graph TD
-  START([Start]) --> ResearchNode[ResearchNode: Parallel Web Search]
-  ResearchNode --> AnalysisNode[AnalysisNode: SWOT & Qualitative LLM]
-  AnalysisNode --> ScoringNode[ScoringNode: Local Quantitative Scoring]
-  ScoringNode --> DecisionNode[DecisionNode: Risk-Adjusted Decision Override]
+  START([Start]) --> ResearchNode[ResearchNode: Parallel Search]
+  ResearchNode --> AnalysisNode[AnalysisNode: SWOT & Qual LLM]
+  AnalysisNode --> ScoringNode[ScoringNode: Rules-Based Scoring]
+  ScoringNode --> DecisionNode[DecisionNode: Safety Guardrail Override]
   DecisionNode --> ReportNode[ReportNode: Synthesis & Reference Cataloging]
   ReportNode --> END([End])
 
@@ -24,94 +99,170 @@ graph TD
   class START,END startEnd;
 ```
 
-### The 5-Node Processing Pipeline
-1. **Research Node**: Queries **Tavily Search** across 5 distinct facets of the company (Overview, Competitors, Recent News, Growth Opportunities, and Investment Risks) in parallel using `Promise.all` to minimize API latency.
-2. **Analysis Node**: Invokes Gemini via structured schemas to extract grounded SWOT categories, market standing, and evaluation confidence based strictly on the retrieved source material.
-3. **Scoring Node**: Evaluates a local rules-based quantitative scorecard (max 100 points) checking Growth Potential, Innovation Index, Market Position, and Risk Metrics.
-4. **Decision Node**: Maps a base recommendation (`INVEST`, `WATCH`, or `PASS`). If safety guardrails fail (e.g., Risk Score falls below `8/25`), it triggers a risk-adjusted override, downgrading `INVEST` to `WATCH` to protect capital.
-5. **Report Node**: Synthesizes the overall executive summary and compiles a deduplicated index of web sources and URLs.
+### Workflow
+
+* **`ResearchNode`**: Takes the input company name and spins up 5 parallel queries using Tavily Search (Company Overview, Competitors, Press News, Growth Opportunities, Operational Risks). Using parallel `Promise.all` queries avoids sequential lag and finishes in ~2s.
+* **`AnalysisNode`**: Packages search findings into a detailed prompt and invokes Gemini using structured schemas. The LLM extracts qualitative strengths, weaknesses, opportunities, threats, market standing, and confidence scores based strictly on the research text.
+* **`ScoringNode`**: Evaluates a local rules-based scorecard out of 100 points based on the SWOT outputs:
+  * **Growth Score (25 pts)**: Base growth potential modulated by the count of opportunities (+1.3 pts each).
+  * **Risk Score (25 pts)**: Deducts points based on weaknesses (-1.5 pts each), threats (-1.5 pts each), and low research confidence.
+  * **Market standing (25 pts)**: Evaluates classification (e.g., Dominant Player gets 20 pts) + strengths (+1 pt each).
+  * **Innovation index (25 pts)**: Scans SWOT arrays for keywords (AI, cloud, battery, robotics, chip, software) and adds points (+1.5 pts per occurrence).
+* **`DecisionNode`**: Maps the overall scorecard to a base recommendation: `INVEST` (score >= 70), `WATCH` (50–69), or `PASS` (< 50). If the Risk Score falls below a safe threshold of `8/25`, a **Risk Override** is triggered, automatically downgrading an `INVEST` rating to `WATCH` to enforce capital safety.
+* **`ReportNode`**: Compiles a deduplicated index of all web references, logs latency benchmarks, and uses Gemini to write a professional 3-sentence executive summary.
 
 ---
 
-## 🚀 Key Features
+## 4. Key Decisions & Trade-offs
 
-* **Dual LLM Provider Support**: Dynamically detects the format of your API key. Supports native **Google Gemini API keys** (`AIzaSy...`) and **OpenRouter keys** (`sk-or-...`) out of the box.
-* **Fail-Fast & Resilient Fallbacks**: If the Gemini/OpenRouter API key is rate-limited (429) or Google's servers experience high load (503), the backend fails fast within 5s and returns a structured fallback report so the UI never hangs.
-* **Axios Request Safeguards**: Configured with a 90-second client-side timeout to absorb high LLM generation latency on free-tier keys.
-* **Premium Dashboard-Style UI**: Modern dark-theme interface with smooth transitions, progress loaders, a recommendation hero card, interactive score gauges, SWOT grid panels, competitor tables, and direct source references.
+* **Why LangGraph instead of a single prompt?**
+  A single prompt makes it difficult to control LLM hallucinations, enforce logical separation, or insert local mathematical validation. LangGraph allows us to build stateful multi-node workflows, enabling strict step-by-step auditing, separate node fallbacks, and deterministic code insertion between LLM states.
+* **Why Tavily instead of scraping?**
+  Raw web scraping is slow, prone to Cloudflare blocks, and yields unstructured HTML garbage. Tavily aggregates, filters, and returns clean text snippets and source URLs directly optimized for LLM consumption, keeping research latency under 3 seconds.
+* **Why Gemini 2.5 Flash / 1.5 Flash?**
+  Flash offers exceptionally fast response times, a large context window, and native Zod-structured schema parsing support.
+* **Why deterministic scoring?**
+  LLMs are notoriously bad at arithmetic and can give different scores for the same text. Enforcing a rules-based parser on the backend ensures that if two companies have the same SWOT data, they receive the exact same score.
+* **Why risk guardrails?**
+  Generative models lean toward optimism. A company like Tesla might score high on growth and innovation, but carry severe operational liabilities. A local risk-mitigation rule (Risk Score check) forces a downgrade to protect capital.
+* **Trade-offs accepted**:
+  * **Context Snippets**: We analyze Tavily search snippets rather than reading full-text 10-K PDFs to keep latency low.
+  * **Free-Tier Limits**: To prevent app crashes, we configured `maxRetries: 1` and implemented fallback templates to immediately render the dashboard if Gemini rate-limits (429) or is overloaded (503).
+* **Features intentionally left out**:
+  * Real-time stock prices (outside the scope of a static research agent).
+  * User portfolios and historical charting (avoided bloat to focus on LLM workflow engineering).
 
 ---
 
-## 🛠️ Environment Configuration
+## 5. Example Runs
 
-Create a `.env` file in the `/server` directory:
+### Tesla
+* **Score**: 82/100
+* **Grade**: A
+* **Recommendation**: `WATCH` (Base recommendation `INVEST` was downgraded to `WATCH` due to a high risk score of `7/25` from vehicle safety lawsuits and Autopilot litigation).
+* **Screenshot**:
+  ![Tesla Run](/screenshots/tesla.png)
 
-```env
-# Backend server port
-PORT=5000
+### Apple
+* **Score**: 79/100
+* **Grade**: B
+* **Recommendation**: `WATCH`
+* **Screenshot**:
+  ![Apple Run](/screenshots/apple.png)
 
-# Tavily Search API key
-TAVILY_API_KEY=your-tavily-api-key
+### Nvidia
+* **Score**: 92/100
+* **Grade**: A
+* **Recommendation**: `INVEST` (Safety check passed; high growth potential and clean risk profile).
+* **Screenshot**:
+  ![Nvidia Run](/screenshots/nvidia.png)
 
-# LLM Provider Key (Supports OpenRouter starting with sk-or- OR native Gemini starting with AIzaSy)
-OPENROUTER_API_KEY=your-api-key
-# OR
-Google_GeminiAPI_KEY=your-api-key
+---
 
-# Optional: Specify the model name (Defaults to gemini-2.5-flash for Google API, google/gemini-2.5-flash for OpenRouter)
-GEMINI_MODEL=google/gemini-2.5-flash
+## 6. What I Would Improve With More Time
+
+* **Redis Caching**: Save research results by company name for 24 hours to eliminate duplicate search queries and drop latency to 1 second.
+* **Retrieval Augmented Generation (RAG)**: Store downloaded annual reports (10-K filings) in a vector database like Pinecone and query it alongside web searches.
+* **Financial Statement Analysis**: Parse numerical Excel sheets (Balance Sheet, Cash Flow) directly using python/Node libraries to score actual debt-to-equity and PE ratios.
+* **User Accounts**: Introduce Firebase/Supabase auth to manage user search history and save research reports.
+* **Historical Performance Benchmarking**: Allow users to run comparative audits between competitor dashboards side-by-side.
+
+---
+
+## 7. LLM-Assisted Development Process
+
+### LLM Tooling
+* **Claude / Gemini / GPT-4o** were used to pair-program and accelerate development.
+
+### Prompting Strategy
+* **Structured Templates**: Prompts were designed to instruct the model to return strict, clean JSON blocks with unescaped quote overrides to prevent parsing exceptions.
+* **Logical Refinements**: The quantitative scoring rules and risk override thresholds were designed iteratively with prompt feedback.
+* **Debugging**: When hitting Google rate limits (429) or service overloads (503), the LLM helped configure `maxRetries` limits and draft the fail-safe fallback objects.
+
+---
+
+## 8. LLM Chat Logs (Bonus)
+All major prompt chains, debugging sessions, and architectural iterations are documented and saved inside the [/llm-logs](file:///c:/downloads/InsideIIM/llm-logs/development_prompt_history.md) folder.
+
+---
+
+## 9. Folder Structure
+
+```text
+InsideIIM/
+├── client/                     # React + Vite Frontend
+│   ├── src/
+│   │   ├── components/         # Dashboard UI Modules
+│   │   │   ├── CompetitorCard.jsx
+│   │   │   ├── DecisionCard.jsx
+│   │   │   ├── LoadingState.jsx
+│   │   │   ├── NewsCard.jsx
+│   │   │   ├── References.jsx
+│   │   │   ├── ResearchSummary.jsx
+│   │   │   ├── ScoreCard.jsx
+│   │   │   ├── SearchBar.jsx
+│   │   │   └── SWOTCard.jsx
+│   │   ├── services/
+│   │   │   └── api.js          # Client Axios configuration
+│   │   ├── App.jsx             # React Shell and State Coordinator
+│   │   ├── index.css           # Custom Tailwind Design tokens
+│   │   └── main.jsx
+│   ├── index.html
+│   ├── package.json
+│   ├── tailwind.config.js
+│   └── vite.config.js
+├── server/                     # Node.js + Express Backend
+│   ├── src/
+│   │   ├── config/
+│   │   │   └── gemini.js       # Dynamic Gemini/OpenRouter Wrapper
+│   │   ├── controllers/
+│   │   │   └── analyzeController.js
+│   │   ├── langgraph/          # Stateful workflow orchestration
+│   │   │   ├── nodes/          # Pipeline processing nodes
+│   │   │   │   ├── AnalysisNode.js
+│   │   │   │   ├── DecisionNode.js
+│   │   │   │   ├── ReportNode.js
+│   │   │   │   ├── ResearchNode.js
+│   │   │   │   └── ScoringNode.js
+│   │   │   ├── graph.js        # Graph Edge Assembly
+│   │   │   └── state.js        # State Blackboard schema
+│   │   ├── routes/
+│   │   │   └── analyze.js
+│   │   ├── services/
+│   │   │   └── tavilyService.js # Raw HTTP Search Integration
+│   │   └── index.js            # Express Entry and Health Check diagnostics
+│   ├── .env                    # Local Env Configuration
+│   └── package.json
+├── llm-logs/                   # Prompt Engineering history logs
+│   └── development_prompt_history.md
+└── README.md                   # Project Documentation
 ```
 
 ---
 
-## 💻 Local Quickstart
+## 10. Deployment
 
-### 1. Install Dependencies
-```bash
-# In the project root, install backend and frontend packages
-cd server && npm install
-cd ../client && npm install
-```
+### Frontend: Vercel
+* Root Directory: `client`
+* Framework Preset: `Vite`
+* Output Directory: `dist`
+* Environment Variables: `VITE_API_URL` pointing to Render backend.
 
-### 2. Start Backend Server
-```bash
-cd server
-npm run dev
-# Server will run at http://localhost:5000
-```
-
-### 3. Start Frontend Client
-```bash
-cd client
-npm run dev
-# Client will run at http://localhost:3000 (or http://localhost:3001)
-```
+### Backend: Render
+* Root Directory: `server`
+* Build Command: `npm install`
+* Start Command: `npm start`
+* Environment Variables: `TAVILY_API_KEY`, `OPENROUTER_API_KEY`, `GEMINI_MODEL`, `PORT`.
 
 ---
 
-## 🌐 Production Deployment Guide
+## 11. Interview Notes
 
-### Backend (Deployed on Render / Railway / Heroku)
-1. **Create Web Service**: Connect your GitHub repository and point the build directory to `server/`.
-2. **Build & Start Commands**:
-   - Build Command: `npm install`
-   - Start Command: `npm start`
-3. **Environment Variables**: Add your `Google_GeminiAPI_KEY`, `TAVILY_API_KEY`, and `PORT` to the host's env dashboard.
-
-### Frontend (Deployed on Vercel)
-1. **Import Project**: Select the project repository in Vercel.
-2. **Build Settings**:
-   - Framework Preset: `Vite`
-   - Root Directory: `client`
-   - Build Command: `npm run build`
-   - Output Directory: `dist`
-3. **Environment Variables**: Add `VITE_API_URL` pointing to your deployed backend service URL (e.g., `https://your-backend-service.onrender.com`).
-
----
-
-## 🔮 Future Architectural Recommendations
-
-1. **Research Caching (Redis)**: Implement a caching layer for Tavily Search results matching specific company names (TTL of 24–48 hours) to minimize search budget usage and drop API latency to under 3s.
-2. **Web Crawlers**: Incorporate a custom scraper (using Puppeteer or JSDOM) to fetch complete body text from key financial reference URLs instead of relying only on Tavily text snippets, enhancing LLM reasoning quality.
-3. **User Management**: Add a Firebase/Supabase auth layer to enforce search limits per user, keeping API consumption within free or custom pay-as-you-go boundaries.
-4. **Vector Embeddings (RAG)**: Store crawled financial reports in a vector database (e.g., Pinecone or pgvector) to allow semantic searching across long company filings (10-K, 10-Q) alongside Tavily web results.
+* **Why LangGraph?**
+  It turns chaotic prompting into a structured engineering pipeline. It allows isolated node auditing, custom state data passing, and logical routing (e.g. running loops or triggers).
+* **Why Tavily?**
+  It is search custom-tailored for AI. It filters irrelevant ads, formats content into LLM-friendly snippets, and compiles source index directories.
+* **Why deterministic scoring?**
+  To maintain mathematical auditability. Investors need consistent score assignments rather than model-generated numbers that drift depending on temperature.
+* **Why WATCH recommendation exists?**
+  It acts as a buffer. In finance, going directly from `INVEST` to `PASS` is too extreme. `WATCH` handles cases where growth looks solid but external risks are high, keeping the stock on the radar while preventing raw optimism.
