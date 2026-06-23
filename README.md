@@ -182,7 +182,7 @@ graph TD
 ---
 
 ## 8. LLM Chat Logs (Bonus)
-All major prompt chains, debugging sessions, and architectural iterations are documented and saved inside the [/llm-logs](file:///c:/downloads/InsideIIM/llm-logs/development_prompt_history.md) folder.
+All major prompt chains, debugging sessions, and architectural iterations are documented and saved inside the [llm-logs/](file:///c:/downloads/InsideIIM/llm-logs) folder containing [architecture.md](file:///c:/downloads/InsideIIM/llm-logs/architecture.md), [implementation.md](file:///c:/downloads/InsideIIM/llm-logs/implementation.md), and [testing-and-deployment.md](file:///c:/downloads/InsideIIM/llm-logs/testing-and-deployment.md).
 
 ---
 
@@ -234,7 +234,9 @@ InsideIIM/
 │   ├── .env                    # Local Env Configuration
 │   └── package.json
 ├── llm-logs/                   # Prompt Engineering history logs
-│   └── development_prompt_history.md
+│   ├── architecture.md
+│   ├── implementation.md
+│   └── testing-and-deployment.md
 └── README.md                   # Project Documentation
 ```
 
