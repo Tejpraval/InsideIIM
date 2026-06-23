@@ -2,6 +2,10 @@
 
 This guide serves as a comprehensive overview of the **AI Investment Research Agent** project. It is structured for recruiters, evaluators, and technical reviewers opening this codebase for the first time.
 
+* **GitHub Repository**: [https://github.com/Tejpraval/InsideIIM](https://github.com/Tejpraval/InsideIIM)
+* **Live Deployment (Vercel)**: [https://inside-iim.vercel.app/](https://inside-iim.vercel.app/)
+* **Production API Health (Render)**: [https://insideiim.onrender.com/health](https://insideiim.onrender.com/health)
+
 ---
 
 ## 1. Project Overview

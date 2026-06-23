@@ -2,6 +2,10 @@
 
 A production-grade, full-stack AI Investment Research Agent that automates institutional-grade quantitative and qualitative research on public companies. The application performs web research, conducts SWOT analyses, calculates financial scorecard metrics, enforces investment safety guardrails, and renders findings in a sleek dashboard.
 
+* **GitHub Repository**: [https://github.com/Tejpraval/InsideIIM](https://github.com/Tejpraval/InsideIIM)
+* **Live Deployment (Vercel)**: [https://inside-iim.vercel.app/](https://inside-iim.vercel.app/)
+* **Production API Health (Render)**: [https://insideiim.onrender.com/health](https://insideiim.onrender.com/health)
+
 ---
 
 ## 1. Overview
@@ -240,6 +244,7 @@ InsideIIM/
 ├── screenshots/                # Application dashboard screenshots
 │   └── .gitkeep
 ├── README.md                   # Project Documentation
+├── deployment_links.md         # Deployed web and repo urls index
 ├── testing_report.md           # API validation & test reports
 └── walkthrough.md              # Technical project walkthrough
 ```
