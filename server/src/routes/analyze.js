@@ -7,6 +7,7 @@ const router = Router();
  * Route: POST /api/analyze
  * Body: { "company": "Company Name" }
  */
+
 router.post("/analyze", analyzeCompany);
 
 export default router;
